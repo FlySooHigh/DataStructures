@@ -24,8 +24,12 @@ public class CheckBrackets {
             }
 
             if (next == ')' || next == ']' || next == '}') {
-                Bracket bracket = openingBracketsStack.pop();
-                if (!bracket.match(next)) {
+                if (!openingBracketsStack.isEmpty()) {
+                    Bracket bracket = openingBracketsStack.pop();
+                    if (!bracket.match(next)) {
+                        return String.valueOf(position + 1);
+                    }
+                } else {
                     return String.valueOf(position + 1);
                 }
             }
