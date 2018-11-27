@@ -5,26 +5,7 @@ import java.io.InputStreamReader;
 import java.io.IOException;
 import java.util.Stack;
 
-class Bracket {
-
-    private char type;
-    private int position;
-
-    Bracket(char type, int position) {
-        this.type = type;
-        this.position = position;
-    }
-
-    boolean match(char c) {
-        return this.type == '[' && c == ']' || this.type == '{' && c == '}' || this.type == '(' && c == ')';
-    }
-
-    int getPosition() {
-        return position;
-    }
-}
-
-class CheckBrackets {
+public class CheckBrackets {
 
     public static void main(String[] args) throws IOException {
         InputStreamReader inputStream = new InputStreamReader(System.in);
@@ -57,5 +38,24 @@ class CheckBrackets {
         } else {
             return String.valueOf(openingBracketsStack.pop().getPosition() + 1);
         }
+    }
+}
+
+class Bracket {
+
+    private char type;
+    private int position;
+
+    Bracket(char type, int position) {
+        this.type = type;
+        this.position = position;
+    }
+
+    boolean match(char c) {
+        return this.type == '[' && c == ']' || this.type == '{' && c == '}' || this.type == '(' && c == ')';
+    }
+
+    int getPosition() {
+        return position;
     }
 }
