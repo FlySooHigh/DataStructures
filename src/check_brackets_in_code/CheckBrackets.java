@@ -6,32 +6,29 @@ import java.io.IOException;
 import java.util.Stack;
 
 class Bracket {
+
+    private char type;
+    private int position;
+
     Bracket(char type, int position) {
         this.type = type;
         this.position = position;
     }
 
-    boolean Match(char c) {
-        if (this.type == '[' && c == ']')
-            return true;
-        if (this.type == '{' && c == '}')
-            return true;
-        if (this.type == '(' && c == ')')
-            return true;
-        return false;
+    boolean match(char c) {
+        return this.type == '[' && c == ']' || this.type == '{' && c == '}' || this.type == '(' && c == ')';
     }
 
-    char type;
-    int position;
 }
 
-class check_brackets {
+class CheckBrackets {
+
     public static void main(String[] args) throws IOException {
         InputStreamReader input_stream = new InputStreamReader(System.in);
         BufferedReader reader = new BufferedReader(input_stream);
         String text = reader.readLine();
 
-        Stack<Bracket> opening_brackets_stack = new Stack<Bracket>();
+        Stack<Bracket> openingBracketsStack = new Stack<>();
         for (int position = 0; position < text.length(); ++position) {
             char next = text.charAt(position);
 
