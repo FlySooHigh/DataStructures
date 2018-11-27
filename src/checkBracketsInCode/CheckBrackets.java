@@ -1,4 +1,4 @@
-package check_brackets_in_code;
+package checkBracketsInCode;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -19,28 +19,43 @@ class Bracket {
         return this.type == '[' && c == ']' || this.type == '{' && c == '}' || this.type == '(' && c == ')';
     }
 
+    int getPosition() {
+        return position;
+    }
 }
 
 class CheckBrackets {
 
     public static void main(String[] args) throws IOException {
-        InputStreamReader input_stream = new InputStreamReader(System.in);
-        BufferedReader reader = new BufferedReader(input_stream);
+        InputStreamReader inputStream = new InputStreamReader(System.in);
+        BufferedReader reader = new BufferedReader(inputStream);
         String text = reader.readLine();
 
+        System.out.println(bracketValidator(text));
+    }
+
+    private static String bracketValidator(String text) {
         Stack<Bracket> openingBracketsStack = new Stack<>();
+
         for (int position = 0; position < text.length(); ++position) {
             char next = text.charAt(position);
 
             if (next == '(' || next == '[' || next == '{') {
-                // Process opening bracket, write your code here
+                openingBracketsStack.push(new Bracket(next, position));
             }
 
             if (next == ')' || next == ']' || next == '}') {
-                // Process closing bracket, write your code here
+                Bracket bracket = openingBracketsStack.pop();
+                if (!bracket.match(next)) {
+                    return String.valueOf(position + 1);
+                }
             }
         }
 
-        // Printing answer, write your code here
+        if (openingBracketsStack.isEmpty()) {
+            return String.valueOf("Success");
+        } else {
+            return String.valueOf(openingBracketsStack.pop().getPosition() + 1);
+        }
     }
 }
