@@ -1,16 +1,35 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.File;
 import java.io.IOException;
+import java.util.Scanner;
 import java.util.Stack;
 
 public class CheckBrackets {
 
-    public static void main(String[] args) throws IOException {
-        InputStreamReader inputStream = new InputStreamReader(System.in);
-        BufferedReader reader = new BufferedReader(inputStream);
-        String text = reader.readLine();
+    private static final int numberOfTests = 54;
 
-        System.out.println(bracketValidator(text));
+    public static void main(String[] args) throws IOException {
+
+        String pathToTests = "tests\\checkBrackets\\";
+
+        for (int i = 1; i <= numberOfTests; i++) {
+
+            String fileName = String.format("%02d", i);
+
+            Scanner scanner = new Scanner(new File(pathToTests + fileName));
+            String inputToTest = scanner.nextLine();
+
+            String result = bracketValidator(inputToTest);
+
+            scanner = new Scanner(new File(pathToTests + fileName + ".a"));
+
+            String expectedResult = scanner.nextLine();
+            if (expectedResult.equals(result)) {
+                System.out.println("Test #" + fileName + " passed");
+            } else {
+                System.out.println("Expected result: " + expectedResult);
+                System.out.println("Result: " + result);
+            }
+        }
     }
 
     private static String bracketValidator(String text) {
