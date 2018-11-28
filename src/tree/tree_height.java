@@ -17,6 +17,7 @@ public class tree_height {
 				tok = new StringTokenizer(in.readLine());
 			return tok.nextToken();
 		}
+
 		int nextInt() throws IOException {
 			return Integer.parseInt(next());
 		}
@@ -24,12 +25,12 @@ public class tree_height {
 
 	public class TreeHeight {
 		int n;
-		int parent[];
+		Integer parent[];
 		
 		void read() throws IOException {
 			FastScanner in = new FastScanner();
 			n = in.nextInt();
-			parent = new int[n];
+			parent = new Integer[n];
 			for (int i = 0; i < n; i++) {
 				parent[i] = in.nextInt();
 			}
@@ -37,7 +38,12 @@ public class tree_height {
 
 		int computeHeight() {
                         // Replace this code with a faster implementation
-			int maxHeight = 0;
+            List<Integer> treeList = Arrays.asList(parent);
+            int rootIndex = treeList.indexOf(-1);
+
+
+
+            int maxHeight = 0;
 			for (int vertex = 0; vertex < n; vertex++) {
 				int height = 0;
 				for (int i = vertex; i != -1; i = parent[i])
@@ -49,15 +55,14 @@ public class tree_height {
 	}
 
 	static public void main(String[] args) throws IOException {
-            new Thread(null, new Runnable() {
-                    public void run() {
-                        try {
-                            new tree_height().run();
-                        } catch (IOException e) {
-                        }
-                    }
-                }, "1", 1 << 26).start();
+            new Thread(null, () -> {
+                try {
+                    new tree_height().run();
+                } catch (IOException ignored) {
+                }
+            }, "1", 1 << 26).start();
 	}
+
 	public void run() throws IOException {
 		TreeHeight tree = new TreeHeight();
 		tree.read();
