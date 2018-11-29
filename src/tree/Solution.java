@@ -66,41 +66,41 @@ public class Solution {
     }
 }
 
-class Node {
-    private int payload;
-    private int depth;
-
-    Node(int payload, int depth) {
-        this.payload = payload;
-        this.depth = depth;
-    }
-
-    public int getPayload() {
-        return payload;
-    }
-
-    public void setPayload(int payload) {
-        this.payload = payload;
-    }
-
-    int getDepth() {
-        return depth;
-    }
-
-    void setDepth(int depth) {
-        this.depth = depth;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Node node = (Node) o;
-        return payload == node.payload;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(payload);
-    }
-}
+//class Node {
+//    private int payload;
+//    private int depth;
+//
+//    Node(int payload, int depth) {
+//        this.payload = payload;
+//        this.depth = depth;
+//    }
+//
+//    public int getPayload() {
+//        return payload;
+//    }
+//
+//    public void setPayload(int payload) {
+//        this.payload = payload;
+//    }
+//
+//    int getDepth() {
+//        return depth;
+//    }
+//
+//    void setDepth(int depth) {
+//        this.depth = depth;
+//    }
+//
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//        Node node = (Node) o;
+//        return payload == node.payload;
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(payload);
+//    }
+//}
