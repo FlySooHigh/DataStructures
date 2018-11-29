@@ -5,57 +5,88 @@ import java.io.FileNotFoundException;
 import java.util.*;
 
 public class Solution {
+
+    private static final int numberOfTests = 24;
+
     public static void main(String[] args) throws FileNotFoundException {
-        Scanner scanner = new Scanner(new File("tests\\tree\\01"));
-        int nodesNum = Integer.parseInt(scanner.nextLine());
-        List<TreeNode> treeNodes = new ArrayList<>();
+        String pathToTests = "tests\\tree\\";
 
-        for (int i = 0; i < nodesNum; i++) {
-            int parent = scanner.nextInt();
-            treeNodes.add(new TreeNode(parent));
+        for (int j = 1; j <= numberOfTests; j++) {
+            String fileName = String.format("%02d", j);
+            Scanner scanner = new Scanner(new File(pathToTests + fileName));
+            int nodesNum = Integer.parseInt(scanner.nextLine());
+
+            Map<Integer, List<Integer>> tree = new HashMap<>();
+
+            for (int i = 0; i < nodesNum; i++) {
+                int parent = scanner.nextInt();
+                if (tree.get(parent) == null) {
+                    List<Integer> children = new ArrayList<>();
+                    children.add(i);
+                    tree.put(parent, children);
+                } else {
+                    tree.get(parent).add(i);
+                }
+            }
+            List<Integer> root = tree.get(-1);
+            Queue<Integer> nodesToCheck = new LinkedList<>();
+            nodesToCheck.add(root.get(0));
+            int height = 1;
+            int maxHeight = 1;
+            while (!nodesToCheck.isEmpty()) {
+                Integer fromQueue = nodesToCheck.remove();
+                List<Integer> children = tree.get(fromQueue);
+                if (children != null) {
+                    height++;
+                    nodesToCheck.addAll(children);
+                } else {
+                    if (maxHeight < height) {
+                        maxHeight = height;
+                    }
+                }
+            }
+//            System.out.println(maxHeight);
+
+            scanner = new Scanner(new File(pathToTests + fileName + ".a"));
+
+            String expectedResult = scanner.nextLine();
+            if (expectedResult.equals(String.valueOf(maxHeight))) {
+                System.out.println("Test #" + fileName + " passed");
+            } else {
+                System.out.println("Test #" + fileName + " failed");
+                System.out.println("Expected result: " + expectedResult);
+                System.out.println("Result: " + maxHeight);
+                break;
+            }
         }
 
-        Queue<TreeNode> nodesToVisit = new LinkedList<>(treeNodes);
-        int height = 0, maxHeight = 0;
-        while (!nodesToVisit.isEmpty()) {
-            TreeNode removed = nodesToVisit.remove();
-            height++;
-            int parent = removed.getParent();
-            while (parent != -1) {
-                TreeNode treeNode = treeNodes.get(parent);
-                height++;
-                nodesToVisit.remove(treeNode);
-                parent = treeNode.getParent();
-            }
-            if (maxHeight < height) {
-                maxHeight = height;
-            }
-            height = 0;
-        }
+
+
     }
 }
 
-class TreeNode {
-    private int parent;
+class Node {
+    private int value;
+    private int depth;
 
-    public TreeNode(int parent) {
-        this.parent = parent;
+    public Node(int value, int depth) {
+        this.value = value;
+        this.depth = depth;
     }
 
-    public int getParent() {
-        return parent;
+    public int getValue() {
+        return value;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        TreeNode treeNode = (TreeNode) o;
-        return parent == treeNode.parent;
+    public void setValue(int value) {
+        this.value = value;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(parent);
+    public int getDepth() {
+        return depth;
+    }
+
+    public void setDepth(int depth) {
+        this.depth = depth;
     }
 }
