@@ -1,10 +1,15 @@
 package stack;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.*;
 
 public class StackWithMax{
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+    public static void main(String[] args) throws FileNotFoundException {
+//        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(new File("tests\\stack\\01"));
+
+        long startTime = System.currentTimeMillis();
         Stack<Integer> stack = new Stack<>();
         Map<Integer, Integer> values = new HashMap<>();
 
@@ -23,6 +28,8 @@ public class StackWithMax{
                     break;
             }
         }
+        long stopTime = System.currentTimeMillis();
+        System.out.println("Seconds: " + (stopTime - startTime)/1000.0);
     }
 
     private static void processPopCommand(Stack<Integer> stack, Map<Integer, Integer> values) {
