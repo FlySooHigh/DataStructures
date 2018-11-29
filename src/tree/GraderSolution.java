@@ -10,7 +10,6 @@ public class GraderSolution {
         int nodesNum = Integer.parseInt(scanner.nextLine());
 
         Map<Node, List<Node>> tree = new HashMap<>();
-
         for (int i = 0; i < nodesNum; i++) {
             int parent = scanner.nextInt();
             Node parentNode = new Node(parent, 1);
