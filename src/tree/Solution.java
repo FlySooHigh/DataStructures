@@ -16,36 +16,40 @@ public class Solution {
             Scanner scanner = new Scanner(new File(pathToTests + fileName));
             int nodesNum = Integer.parseInt(scanner.nextLine());
 
-            Map<Integer, List<Integer>> tree = new HashMap<>();
+            Map<Node, List<Node>> tree = new HashMap<>();
 
             for (int i = 0; i < nodesNum; i++) {
                 int parent = scanner.nextInt();
-                if (tree.get(parent) == null) {
-                    List<Integer> children = new ArrayList<>();
-                    children.add(i);
-                    tree.put(parent, children);
+                Node parentNode = new Node(parent, 1);
+                if (tree.get(parentNode) == null) {
+                    List<Node> children = new ArrayList<>();
+                    Node childNode = new Node(i, 1);
+                    children.add(childNode);
+                    tree.put(parentNode, children);
                 } else {
-                    tree.get(parent).add(i);
+                    Node childNode = new Node(i, 1);
+                    tree.get(parentNode).add(childNode);
                 }
             }
-            List<Integer> root = tree.get(-1);
-            Queue<Integer> nodesToCheck = new LinkedList<>();
+
+            List<Node> root = tree.get(new Node(-1, 1));
+            Queue<Node> nodesToCheck = new LinkedList<>();
             nodesToCheck.add(root.get(0));
-            int height = 1;
             int maxHeight = 1;
             while (!nodesToCheck.isEmpty()) {
-                Integer fromQueue = nodesToCheck.remove();
-                List<Integer> children = tree.get(fromQueue);
+                Node fromQueue = nodesToCheck.remove();
+                List<Node> children = tree.get(fromQueue);
                 if (children != null) {
-                    height++;
+                    for (Node child:children){
+                        child.setDepth(fromQueue.getDepth() + 1);
+                    }
                     nodesToCheck.addAll(children);
                 } else {
-                    if (maxHeight < height) {
-                        maxHeight = height;
+                    if (maxHeight < fromQueue.getDepth()) {
+                        maxHeight = fromQueue.getDepth();
                     }
                 }
             }
-//            System.out.println(maxHeight);
 
             scanner = new Scanner(new File(pathToTests + fileName + ".a"));
 
@@ -59,34 +63,44 @@ public class Solution {
                 break;
             }
         }
-
-
-
     }
 }
 
 class Node {
-    private int value;
+    private int payload;
     private int depth;
 
-    public Node(int value, int depth) {
-        this.value = value;
+    Node(int payload, int depth) {
+        this.payload = payload;
         this.depth = depth;
     }
 
-    public int getValue() {
-        return value;
+    public int getPayload() {
+        return payload;
     }
 
-    public void setValue(int value) {
-        this.value = value;
+    public void setPayload(int payload) {
+        this.payload = payload;
     }
 
-    public int getDepth() {
+    int getDepth() {
         return depth;
     }
 
-    public void setDepth(int depth) {
+    void setDepth(int depth) {
         this.depth = depth;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Node node = (Node) o;
+        return payload == node.payload;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(payload);
     }
 }
