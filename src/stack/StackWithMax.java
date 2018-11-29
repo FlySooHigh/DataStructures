@@ -1,60 +1,64 @@
 package stack;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.*;
+import java.io.*;
 
-public class StackWithMax{
-    public static void main(String[] args) throws FileNotFoundException {
-//        Scanner scanner = new Scanner(System.in);
-        Scanner scanner = new Scanner(new File("tests\\stack\\01"));
+public class StackWithMax {
+    class FastScanner {
+        StringTokenizer tok = new StringTokenizer("");
+        BufferedReader in;
 
-        long startTime = System.currentTimeMillis();
-        Stack<Integer> stack = new Stack<>();
-        Map<Integer, Integer> values = new HashMap<>();
+        FastScanner() throws FileNotFoundException {
+            in = new BufferedReader(new InputStreamReader(System.in));
+//            in = new BufferedReader(new InputStreamReader(new FileInputStream("tests\\stack\\01")));
+        }
 
-        int numberOfCommands = Integer.parseInt(scanner.nextLine());
-        for (int i = 0; i < numberOfCommands; i++) {
-            String command = scanner.nextLine();
-            switch (command) {
-                case "pop":
-                    processPopCommand(stack, values);
-                    break;
-                case "max":
-                    processMaxCommand(values);
-                    break;
-                default:
-                    processPushCommand(stack, values, command);
-                    break;
+        String next() throws IOException {
+            while (!tok.hasMoreElements())
+                tok = new StringTokenizer(in.readLine());
+            return tok.nextToken();
+        }
+        int nextInt() throws IOException {
+            return Integer.parseInt(next());
+        }
+    }
+
+    public void solve() throws IOException {
+
+        TreeMap<Integer, Integer> values = new TreeMap<>();
+
+        FastScanner scanner = new FastScanner();
+        int queries = scanner.nextInt();
+        Stack<Integer> stack = new Stack<Integer>();
+
+        for (int qi = 0; qi < queries; ++qi) {
+            String operation = scanner.next();
+            if ("push".equals(operation)) {
+                int value = scanner.nextInt();
+                stack.push(value);
+                if (!values.containsKey(value)) {
+                    values.put(value, 1);
+                } else {
+                    values.put(value, values.get(value) + 1);
+                }
+            } else if ("pop".equals(operation)) {
+                Integer poppedValue = stack.pop();
+                Integer occurances = values.get(poppedValue);
+                if (occurances == 1) {
+                    values.remove(poppedValue);
+                } else {
+                    values.put(poppedValue, occurances - 1);
+                }
+            } else if ("max".equals(operation)) {
+                System.out.println(values.lastKey());
             }
         }
-        long stopTime = System.currentTimeMillis();
-        System.out.println("Seconds: " + (stopTime - startTime)/1000.0);
     }
 
-    private static void processPopCommand(Stack<Integer> stack, Map<Integer, Integer> values) {
-        Integer poppedValue = stack.pop();
-        Integer occurances = values.get(poppedValue);
-        if (occurances == 1) {
-            values.remove(poppedValue);
-        } else {
-            values.put(poppedValue, occurances - 1);
-        }
-    }
-
-    private static void processMaxCommand(Map<Integer, Integer> values) {
-        System.out.println(Collections.max(values.keySet()));
-    }
-
-    private static void processPushCommand(Stack<Integer> stack, Map<Integer, Integer> values, String command) {
-        String parsedNumber = command.trim().replaceAll("\\D+", "");
-        int value = Integer.parseInt(parsedNumber);
-        stack.push(value);
-        if (!values.containsKey(value)) {
-            values.put(value, 1);
-        } else {
-            values.put(value, values.get(value) + 1);
-        }
+    static public void main(String[] args) throws IOException {
+//        long startTime = System.currentTimeMillis();
+        new StackWithMax().solve();
+//        long stopTime = System.currentTimeMillis();
+//        System.out.println("Seconds: " + (stopTime - startTime)/1000.0);
     }
 }
-
