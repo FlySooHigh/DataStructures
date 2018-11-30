@@ -41,12 +41,12 @@ class Buffer {
 
 class ProcessPackages {
     private static ArrayList<Request> readQueries(Scanner scanner) throws IOException {
-        int requests_count = scanner.nextInt();
+        int requestsCount = scanner.nextInt();
         ArrayList<Request> requests = new ArrayList<>();
-        for (int i = 0; i < requests_count; ++i) {
-            int arrival_time = scanner.nextInt();
-            int process_time = scanner.nextInt();
-            requests.add(new Request(arrival_time, process_time));
+        for (int i = 0; i < requestsCount; ++i) {
+            int arrivalTime = scanner.nextInt();
+            int processTime = scanner.nextInt();
+            requests.add(new Request(arrivalTime, processTime));
         }
         return requests;
     }
