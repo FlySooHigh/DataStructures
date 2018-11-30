@@ -1,5 +1,6 @@
 package network;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -25,11 +26,11 @@ class Response {
 }
 
 class Buffer {
-    private int size;
+    private int maxSize;
     private ArrayList<Integer> finishTime;
 
-    Buffer(int size) {
-        this.size = size;
+    Buffer(int maxSize) {
+        this.maxSize = maxSize;
         this.finishTime = new ArrayList<>();
     }
 
@@ -70,7 +71,8 @@ class ProcessPackages {
     }
 
     public static void main(String[] args) throws IOException {
-        Scanner scanner = new Scanner(System.in);
+//        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(new File("tests\\network\\17"));
 
         int bufferSize = scanner.nextInt();
         Buffer buffer = new Buffer(bufferSize);
